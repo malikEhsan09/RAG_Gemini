@@ -473,6 +473,7 @@ from langchain.prompts import PromptTemplate
 from PyPDF2 import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware  # Import CORS middleware
 
 # Load environment variables
 load_dotenv()
@@ -490,6 +491,14 @@ EMBEDDINGS_FILE = "embeddings.pkl"
 
 # FastAPI app setup
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins; change to specific origins in production
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (POST, GET, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Function to read the PDF and extract text
 def get_pdf_text(file: UploadFile):
