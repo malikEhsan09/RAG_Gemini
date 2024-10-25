@@ -511,7 +511,7 @@ def get_pdf_text(file: UploadFile):
 
 # Function to split the text into chunks
 def get_text_chunks(text):
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=20000, chunk_overlap=1000)
     chunks = text_splitter.split_text(text)
     return chunks
 
@@ -543,7 +543,7 @@ def add_to_faiss(index, embeddings, stored_embeddings, content):
     save_faiss_index(index, stored_embeddings)
 
 # Function to query FAISS for similar documents
-def query_faiss(index, stored_embeddings, query_embedding, top_k=5):
+def query_faiss(index, stored_embeddings, query_embedding, top_k=10):
     query_np = np.array([query_embedding]).astype("float32")
     distances, indices = index.search(query_np, top_k)
     results = [{"content": stored_embeddings[i]["content"], "distance": distances[0][j]} 
